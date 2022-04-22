@@ -1,15 +1,15 @@
 # Comet VOEvent Broker.
 # Example event handler: print an event.
 
-import lxml.etree as ElementTree
-from zope.interface import implementer
-from twisted.plugin import IPlugin
-from comet.icomet import IHandler
 import io
-import voeventparse as vp
-import xmltodict
 import pickle
+import xmltodict
+import voeventparse as vp
 from pymongo import MongoClient
+import lxml.etree as ElementTree
+from comet.icomet import IHandler
+from twisted.plugin import IPlugin
+from zope.interface import implementer
 
 
 
@@ -33,7 +33,8 @@ class EventReceiver(object):
 
         v = vp.loads(event.raw_bytes)
         doc = xmltodict.parse(vp.dumps(v))
-
+        # Query exemple: select notices with shortname INTEGRAL (via VO-GCN)
+        # {'voe:VOEvent.Who.Author.shortName': "INTEGRAL (via VO-GCN)"}
         x = collection.insert_one(doc)
         #print("Ivorn:", v.attrib['ivorn'])
         #print("Role:", v.attrib['role'])
