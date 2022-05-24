@@ -10,15 +10,20 @@ except ImportError:
 import lxml.etree as etree
 
 from twisted.trial import unittest
+import textwrap
 from twisted.plugin import IPlugin
 
 from comet.icomet import IHandler
 from comet.plugins.eventreceiver import EventReceiver
-
-DUMMY_XML = u'<xml/>'
+from comet.utility.xml import xml_document
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME
 
 class DummyEvent(object):
-    element = etree.fromstring(DUMMY_XML)
+    #element = etree.fromstring(DUMMY_VOEVENT)
+    gcn = xml_document(DUMMY_VOEVENT_GCN)
+    chime = xml_document(DUMMY_VOEVENT_CHIME)
+    integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
+
 
 class EventReceiverTestCase(unittest.TestCase):
     def test_interface(self):
@@ -30,5 +35,9 @@ class EventReceiverTestCase(unittest.TestCase):
 
     def test_print_event(self):
         event_receiver = EventReceiver()
-        event_receiver(DummyEvent())
+        dummyevents = DummyEvent()
+        event_receiver(dummyevents.chime)
+        event_receiver(dummyevents.gcn)
+        event_receiver(dummyevents.integral)
+
         
