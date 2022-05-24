@@ -1,3 +1,4 @@
+import os
 import io
 import pickle
 import xmltodict
@@ -92,7 +93,7 @@ class EventReceiver(object):
     def add_notice_mysql(self, voevent):
         
         try:
-            cnx = mysql.connector.connect(user='afiss', password='RT@grawita@',
+            cnx = mysql.connector.connect(user='afiss', password=os.environ["MYSQL_AFISS"],
                               host='127.0.0.1', port=60306,
                               database='afiss_rta_pipe_test')
 
@@ -175,7 +176,7 @@ class EventReceiver(object):
         #collection=db["Events"]
 
         v = vp.loads(event.raw_bytes)
-        print(vp.prettystr(v))
+        print(os.environ["MYSQL_AFISS"])
         #self.add_notice_mysql(v)
         #doc = xmltodict.parse(vp.dumps(v))
         # Query exemple: select notices with shortname INTEGRAL (via VO-GCN)
