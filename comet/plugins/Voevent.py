@@ -1,20 +1,22 @@
 import re
+import json
+from tokenize import group
 import numpy as np
 import voeventparse as vp
 from datetime import datetime
 from astropy.time import Time
 from astropy import units as u
 import lxml.etree as ElementTree
-from astropy.coordinates import SkyCoord
 from comet.utility import voevent
+from astropy.coordinates import SkyCoord
 from comet.utility.xml import xml_document
 
 from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO
 
-
-
 class DummyEvent(object):
-    #Class containing standard voevent from three different networks
+    """
+    Class containing standard voevent from different networks
+    """
     gcn = xml_document(DUMMY_VOEVENT_GCN)
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
@@ -48,12 +50,14 @@ class Voevent(object):
         self.last = 1
         self.contour = "test"
         self.url = "test"
-        self.attributes = '{"bbh": 0, "bns": 0.9999947011562164, "far": 0.00000000000009110699364861295, "nsbh": 0, "has_ns": 1, "grace_id": "MS210208t", "mass_gap": 0, "has_remnant": 1, "terrestrial": 0.000005298843783562432}'
+        self.attributes = self.get_ligo_attributes() #'{"bbh": 0, "bns": 0.9999947011562164, "far": 0.00000000000009110699364861295, "nsbh": 0, "has_ns": 1, "grace_id": "MS210208t", "mass_gap": 0, "has_remnant": 1, "terrestrial": 0.000005298843783562432}'
     
 
     def mark_notice(self):
-
-        #The only common parameter is the contactName, we discriminate among notices using this parameter
+        """
+        The only common parameter is the contactName, we discriminate among notices using this parameter
+        """
+        
         if "Scott Barthelmy" == self.voevent.Who.Author.contactName.text:
             self.GCN = True
             return
@@ -67,16 +71,23 @@ class Voevent(object):
             self.INTEGRAL = True
             return
         
-        raise Exception("notice not supported")
+        raise Exception("Notice not supported")
+    
+    
     def get_instrumentid_from_packet_type(self):
-        
+        """
+        Packet type description available at https://gcn.gsfc.nasa.gov/sock_pkt_def_doc.html
+        Eg:
+            SWIFT [46,47, 60 to 99, 103, 133, 140, 141]
+            FERMI_GBM [110 to 119, 144]
+            FERMI_LAT [120,121,122,123,124,125,127,128]
+            LIGO [150, 151, 152]
+            ICECUBE [173, 174]
 
+        """
         if self.GCN or self.LIGO:
             packet_type = int(self.voevent.What.Param[0].attrib["value"])
-            #https://gcn.gsfc.nasa.gov/sock_pkt_def_doc.html
-            #SWIFT [46,47, 60 to 99, 103, 133, 140, 141]
-            #FERMI_GBM [110 to 119, 144]
-            #FERMI_LAT [120,121,122,123,124,125,127,128]
+
 
             if packet_type == 97: #SWIFT 
                 return 3
@@ -95,7 +106,7 @@ class Voevent(object):
             elif packet_type == 174: #ICECUBE_ASTROTRACK_GOLD
                 return 22
 
-        if self.CHIME: #CHIME
+        if self.CHIME:
             return 24 
         if self.INTEGRAL:
             return 23
@@ -131,11 +142,12 @@ class Voevent(object):
         return np.round(t.unix - 1072915200)
 
     def get_networkID(self):
-
-        #Possible ivorns
-        #GCN
-        #Chimenet
-        #INTEGRAL from James Rodi
+        """
+        Possible networks
+        - GCN network
+        - Chimenet
+        - INTEGRAL notices from James Rodi
+        """
 
         if self.GCN or self.LIGO:
             return 1
@@ -160,6 +172,30 @@ class Voevent(object):
         if self.LIGO:
             return 0
         return float(self.voevent.WhereWhen.ObsDataLocation.ObservationLocation.AstroCoords.Position2D.Error2Radius.text)
+
+    def get_ligo_attributes(self):
+        """
+        {"bbh": 0, "bns": 0.9999947011562164, "far": 0.00000000000009110699364861295, "nsbh": 0, "has_ns": 1, "grace_id": "MS210208t",
+        "mass_gap": 0, "has_remnant": 1, "terrestrial": 0.000005298843783562432}
+        """
+        if self.LIGO:
+            grouped_params = vp.get_grouped_params(self.voevent)
+            attributes = {}
+            attributes["BBH"] = grouped_params["Classification"]["BBH"]["value"]
+            attributes["BNS"] = grouped_params["Classification"]["BNS"]["value"]
+            attributes["far"] = self.voevent.What.Param[9].attrib["value"]
+            attributes["NSBH"] = grouped_params["Classification"]["NSBH"]["value"]
+            attributes["HasNs"] = grouped_params["Properties"]["HasNS"]["value"]
+            attributes["GraceId"] = self.voevent.What.Param[3].attrib["value"]
+            attributes["MassGap"] = grouped_params["Classification"]["MassGap"]["value"]
+            attributes["HasRemnant"] = grouped_params["Properties"]["HasRemnant"]["value"]
+            attributes["terrestrial"] = grouped_params["Classification"]["Terrestrial"]["value"]
+
+            return str(json.dumps(attributes))
+        
+        return {}
+
+
 
     def __str__(self):
         return f"Voevent \n IntrumentID: {self.instrumentId}, seqNum {self.seqNum}, triggerid: {self.triggerId}, packetType: {self.packetType}, time: {self.isoTime}, l: {self.l}, b: {self.b}"

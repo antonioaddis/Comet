@@ -19,6 +19,11 @@ class DummyEvent(object):
 
 
 class EventReceiverTestCase(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.dummyevents = DummyEvent()
+        self.event_receiver = EventReceiver()
+
     def test_interface(self):
         self.assertTrue(IHandler.implementedBy(EventReceiver))
         self.assertTrue(IPlugin.implementedBy(EventReceiver))
@@ -26,12 +31,18 @@ class EventReceiverTestCase(unittest.TestCase):
     def test_name(self):
         self.assertEqual(EventReceiver.name, "receive-event")
 
-    def test_print_event(self):
-        event_receiver = EventReceiver()
-        dummyevents = DummyEvent()
-        event_receiver(dummyevents.chime)
-        event_receiver(dummyevents.gcn)
-        event_receiver(dummyevents.integral)
-        event_receiver(dummyevents.ligo)
+    def test_write_chime_event(self):
+        request = self.event_receiver(self.dummyevents.chime)
+        self.assertTrue(request)
 
-        
+    def test_write_gcn_event(self):
+        request = self.event_receiver(self.dummyevents.gcn)
+        self.assertTrue(request)
+    
+    def test_write_integral(self):
+        request = self.event_receiver(self.dummyevents.integral)
+        self.assertTrue(request)
+    
+    def test_write_ligo(self):
+        request = self.event_receiver(self.dummyevents.ligo)
+        self.assertTrue(request)

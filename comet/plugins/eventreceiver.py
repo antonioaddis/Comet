@@ -74,9 +74,6 @@ class EventReceiver(object):
         cursor.execute(query)
         cnx.commit()
 
-    def __init__(self) -> None:
-        pass
-
     # When the handler is called, it is passed an instance of
     # comet.utility.xml.xml_document.
     def __call__(self, event):
@@ -98,5 +95,7 @@ class EventReceiver(object):
         #print("AuthorIVORN:", v.Who.AuthorIVORN)
         #print("Short name:", v.Who.Author.shortName)
         #print("Contact:", v.Who.Author.contactEmail)
+
+        return True
 
 receive_event = EventReceiver()
