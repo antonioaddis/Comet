@@ -273,9 +273,9 @@ DUMMY_VOEVENT_CHIME = textwrap.dedent(DUMMY_VOEVENT_CHIME).strip().encode('UTF-8
 
 
 DUMMY_VOEVENT_GCN = u"""
-<?xml version = '1.0' encoding = 'UTF-8'?>
+<?xml version = "1.0" encoding = "UTF-8"?>
 <voe:VOEvent
-      ivorn="ivo://nasa.gsfc.gcn/SWIFT#BAT_SubSubThresh_Pos_-1532692135-737"
+      ivorn="ivo://nasa.gsfc.gcn/SWIFT#BAT_QuickLook_Pos_1031728-518"
       role="observation" version="2.0"
       xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -288,56 +288,47 @@ DUMMY_VOEVENT_GCN = u"""
       <contactPhone>+1-301-286-3106</contactPhone>
       <contactEmail>scott.barthelmy@nasa.gov</contactEmail>
     </Author>
-    <Date>2022-05-17T10:00:22</Date>
-    <Description>This VOEvent message was created with GCN VOE version: 15.08 30dec21</Description>
+    <Date>2021-02-10T02:00:38</Date>
+    <Description>This VOEvent message was created with GCN VOE version: 15.05 18nov20</Description>
   </Who>
   <What>
-    <Param name="Packet_Type"  value="140" />
-    <Param name="Pkt_Ser_Num"  value="60761" />
-    <Param name="TrigID"       value="-1532692135" ucd="meta.id" />
-    <Param name="Event_TJD"    value="19716" unit="days" ucd="time" />
-    <Param name="Event_SOD"    value="16530.00" unit="sec" ucd="time" />
-    <Param name="Event_Inten"  value="773" unit="cts" ucd="phot.count;em.gamma.soft" />
-    <Param name="Integ_Time"   value="64.000" unit="sec" ucd="time.interval" />
-    <Param name="Phi"          value="171.99" unit="deg" ucd="pos.az.azi" />
-    <Param name="Theta"        value="17.91" unit="deg" ucd="pos.az.zd" />
-    <Param name="Soln_Status"  value="0x800" />
-    <Param name="Misc_flags"   value="0x40000000" />
-    <Param name="Image_Signif" value="4.22" unit="sigma" ucd="stat.snr" />
-    <Group name="Solution_Status" >
-      <Param name="Point_Source"             value="false" />
-      <Param name="VERY_Lo_Image_Signif"     value="true" />
-      <Param name="Target_in_Flt_Catalog"    value="false" />
-      <Param name="Target_in_Gnd_Catalog"    value="false" />
-      <Param name="Near_Bright_Star"         value="false" />
-      <Param name="Spatial_Prox_Match"       value="false" />
-      <Param name="Temporal_Prox_Match"      value="false" />
-      <Param name="Test_Submission"          value="false" />
-    </Group>
+    <Param name="Packet_Type"   value="97" />
+    <Param name="Pkt_Ser_Num"   value="1" />
+    <Param name="TrigID"        value="1031728" ucd="meta.id" />
+    <Param name="Segment_Num"   value="0" ucd="meta.id.part" />
+    <Param name="Burst_TJD"     value="19255" unit="days" ucd="time" />
+    <Param name="Burst_SOD"     value="7227.92" unit="sec" ucd="time" />
+    <Param name="AT_Slew_Flags" value="0x3" />
+    <Param name="Misc_flags"    value="0x0" />
+    <Param name="Rate_Signif"   value="16.24" unit="sigma" ucd="stat.snr" />
+    <Param name="SC_Long"       value="0.00" unit="deg" ucd="pos.earth.lon" />
+    <Param name="SC_Lat"        value="0.00" unit="deg" ucd="pos.earth.lat" />
     <Group name="Misc_Flags" >
       <Param name="Values_Out_of_Range"      value="false" />
       <Param name="Near_Bright_Star"         value="false" />
       <Param name="Err_Circle_in_Galaxy"     value="false" />
       <Param name="Galaxy_in_Err_Circle"     value="false" />
+      <Param name="TOO_Generated"            value="false" />
+      <Param name="CRC_Error"                value="false" />
     </Group>
     <Param name="Coords_Type"   value="1" unit="dn" />
     <Param name="Coords_String" value="source_object" />
     <Group name="Obs_Support_Info" >
       <Description>The Sun and Moon values are valid at the time the VOEvent XML message was created.</Description>
-      <Param name="Sun_RA"        value="54.19" unit="deg" ucd="pos.eq.ra" />
-      <Param name="Sun_Dec"       value="19.37" unit="deg" ucd="pos.eq.dec" />
-      <Param name="Sun_Distance"  value="78.57" unit="deg" ucd="pos.angDistance" />
-      <Param name="Sun_Hr_Angle"  value="7.59" unit="hr" />
-      <Param name="Moon_RA"       value="252.22" unit="deg" ucd="pos.eq.ra" />
-      <Param name="Moon_Dec"      value="-24.29" unit="deg" ucd="pos.eq.dec" />
-      <Param name="MOON_Distance" value="101.79" unit="deg" ucd="pos.angDistance" />
-      <Param name="Moon_Illum"    value="97.72" unit="%" ucd="arith.ratio" />
-      <Param name="Galactic_Long" value="104.63" unit="deg" ucd="pos.galactic.lon" />
-      <Param name="Galactic_Lat"  value="20.58" unit="deg" ucd="pos.galactic.lat" />
-      <Param name="Ecliptic_Long" value="40.79" unit="deg" ucd="pos.ecliptic.lon" />
-      <Param name="Ecliptic_Lat"  value="78.14" unit="deg" ucd="pos.ecliptic.lat" />
+      <Param name="Sun_RA"        value="323.93" unit="deg" ucd="pos.eq.ra" />
+      <Param name="Sun_Dec"       value="-14.32" unit="deg" ucd="pos.eq.dec" />
+      <Param name="Sun_Distance"  value="66.81" unit="deg" ucd="pos.angDistance" />
+      <Param name="Sun_Hr_Angle"  value="4.06" unit="hr" />
+      <Param name="Moon_RA"       value="303.40" unit="deg" ucd="pos.eq.ra" />
+      <Param name="Moon_Dec"      value="-23.48" unit="deg" ucd="pos.eq.dec" />
+      <Param name="MOON_Distance" value="54.85" unit="deg" ucd="pos.angDistance" />
+      <Param name="Moon_Illum"    value="3.35" unit="%" ucd="arith.ratio" />
+      <Param name="Galactic_Long" value="37.58" unit="deg" ucd="pos.galactic.lon" />
+      <Param name="Galactic_Lat"  value="24.24" unit="deg" ucd="pos.galactic.lat" />
+      <Param name="Ecliptic_Long" value="261.18" unit="deg" ucd="pos.ecliptic.lon" />
+      <Param name="Ecliptic_Lat"  value="37.87" unit="deg" ucd="pos.ecliptic.lat" />
     </Group>
-    <Description>Type=140: The sub-sub-threshold Swift-BAT trigger position notice.</Description>
+    <Description>Type=97: The Swift-BAT instrument quick-look position notice.</Description>
   </What>
   <WhereWhen>
     <ObsDataLocation>
@@ -347,17 +338,17 @@ DUMMY_VOEVENT_GCN = u"""
         <AstroCoords coord_system_id="UTC-FK5-GEO">
           <Time unit="s">
             <TimeInstant>
-              <ISOTime>2022-05-17T04:35:30.00</ISOTime>
+              <ISOTime>2021-02-10T02:00:27.92</ISOTime>
             </TimeInstant>
           </Time>
           <Position2D unit="deg">
             <Name1>RA</Name1>
             <Name2>Dec</Name2>
             <Value2>
-              <C1>300.3179</C1>
-              <C2>72.0460</C2>
+              <C1>262.8109</C1>
+              <C2>14.6481</C2>
             </Value2>
-            <Error2Radius>0.0666</Error2Radius>
+            <Error2Radius>0.0500</Error2Radius>
           </Position2D>
         </AstroCoords>
       </ObservationLocation>
@@ -368,22 +359,125 @@ DUMMY_VOEVENT_GCN = u"""
     <Description>Swift Satellite, BAT Instrument</Description>
     <Reference uri="http://gcn.gsfc.nasa.gov/swift.html" type="url" />
   </How>
-  <Why importance="0.01">
-    <Inference probability="0.001">
-      <Name>Noise</Name>
+  <Why importance="0.90">
+    <Inference probability="0.90">
+      <Name>GRB 210210</Name>
       <Concept>process.variation.burst;em.gamma</Concept>
     </Inference>
   </Why>
   <Description>
   </Description>
-</voe:VOEvent>"""
+</voe:VOEvent>
+"""
 DUMMY_VOEVENT_GCN = textwrap.dedent(DUMMY_VOEVENT_GCN).strip().encode('UTF-8')
 
-class DummyEvent(object):
-    def __init__(self, ivoid=DUMMY_EVENT_IVOID):
-        self.attrib = {'ivorn': ivoid}
-        self.raw_bytes = DUMMY_VOEVENT.replace(DUMMY_EVENT_IVOID, ivoid)
-        self.element = etree.fromstring(self.raw_bytes)
+
+DUMMY_VOEVENT_LIGO = u"""
+<?xml version="1.0" encoding="UTF-8"?>
+<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="observation" ivorn="ivo://gwnet/LVC#S191225aq-1-Preliminary">
+  <Who>
+    <Date>2019-12-25T21:59:57</Date>
+    <Author>
+      <contactName>LIGO Scientific Collaboration and Virgo Collaboration</contactName>
+    </Author>
+  </Who>
+  <What>
+    <Param dataType="int" name="Packet_Type" value="150">
+      <Description>The Notice Type number is assigned/used within GCN, eg type=150 is an LVC_PRELIMINARY notice</Description>
+    </Param>
+    <Param dataType="int" name="internal" value="0">
+      <Description>Indicates whether this event should be distributed to LSC/Virgo members only</Description>
+    </Param>
+    <Param dataType="int" name="Pkt_Ser_Num" value="1">
+      <Description>A number that increments by 1 each time a new revision is issued for this event</Description>
+    </Param>
+    <Param dataType="string" name="GraceID" ucd="meta.id" value="S191225aq">
+      <Description>Identifier in GraceDB</Description>
+    </Param>
+    <Param dataType="string" name="AlertType" ucd="meta.version" value="Preliminary">
+      <Description>VOEvent alert type</Description>
+    </Param>
+    <Param dataType="int" name="HardwareInj" ucd="meta.number" value="0">
+      <Description>Indicates that this event is a hardware injection if 1, no if 0</Description>
+    </Param>
+    <Param dataType="int" name="OpenAlert" ucd="meta.number" value="1">
+      <Description>Indicates that this event is an open alert if 1, no if 0</Description>
+    </Param>
+    <Param dataType="string" name="EventPage" ucd="meta.ref.url" value="https://gracedb.ligo.org/superevents/S191225aq/view/">
+      <Description>Web page for evolving status of this GW candidate</Description>
+    </Param>
+    <Param dataType="string" name="Instruments" ucd="meta.code" value="L1,V1">
+      <Description>List of instruments used in analysis to identify this event</Description>
+    </Param>
+    <Param dataType="float" name="FAR" ucd="arith.rate;stat.falsealarm" unit="Hz" value="1.26701833689754e-08">
+      <Description>False alarm rate for GW candidates with this strength or greater</Description>
+    </Param>
+    <Param dataType="string" name="Group" ucd="meta.code" value="CBC">
+      <Description>Data analysis working group</Description>
+    </Param>
+    <Param dataType="string" name="Pipeline" ucd="meta.code" value="pycbc">
+      <Description>Low-latency data analysis pipeline</Description>
+    </Param>
+    <Param dataType="string" name="Search" ucd="meta.code" value="AllSky">
+      <Description>Specific low-latency search</Description>
+    </Param>
+    <Group name="GW_SKYMAP" type="GW_SKYMAP">
+      <Param dataType="string" name="skymap_fits" ucd="meta.ref.url" value="https://gracedb.ligo.org/api/superevents/S191225aq/files/bayestar.fits.gz,0">
+        <Description>Sky Map FITS</Description>
+      </Param>
+    </Group>
+    <Group name="Classification" type="Classification">
+      <Param dataType="float" name="BNS" ucd="stat.probability" value="0.0">
+        <Description>Probability that the source is a binary neutron star merger (both objects lighter than 3 solar masses)</Description>
+      </Param>
+      <Param dataType="float" name="NSBH" ucd="stat.probability" value="0.0">
+        <Description>Probability that the source is a neutron star-black hole merger (primary heavier than 5 solar masses, secondary lighter than 3 solar masses)</Description>
+      </Param>
+      <Param dataType="float" name="BBH" ucd="stat.probability" value="0.8412799372226022">
+        <Description>Probability that the source is a binary black hole merger (both objects heavier than 5 solar masses)</Description>
+      </Param>
+      <Param dataType="float" name="MassGap" ucd="stat.probability" value="0.0">
+        <Description>Probability that the source has at least one object between 3 and 5 solar masses</Description>
+      </Param>
+      <Param dataType="float" name="Terrestrial" ucd="stat.probability" value="0.1587200627773978">
+        <Description>Probability that the source is terrestrial (i.e., a background noise fluctuation or a glitch)</Description>
+      </Param>
+      <Description>Source classification: binary neutron star (BNS), neutron star-black hole (NSBH), binary black hole (BBH), MassGap, or terrestrial (noise)</Description>
+    </Group>
+    <Group name="Properties" type="Properties">
+      <Param dataType="float" name="HasNS" ucd="stat.probability" value="0.0">
+        <Description>Probability that at least one object in the binary has a mass that is less than 3 solar masses</Description>
+      </Param>
+      <Param dataType="float" name="HasRemnant" ucd="stat.probability" value="0.0">
+        <Description>Probability that a nonzero mass was ejected outside the central remnant object</Description>
+      </Param>
+      <Description>Qualitative properties of the source, conditioned on the assumption that the signal is an astrophysical compact binary merger</Description>
+    </Group>
+  </What>
+  <WhereWhen>
+    <ObsDataLocation>
+      <ObservatoryLocation id="LIGO Virgo"/>
+      <ObservationLocation>
+        <AstroCoordSystem id="UTC-FK5-GEO"/>
+        <AstroCoords coord_system_id="UTC-FK5-GEO">
+          <Time unit="s">
+            <TimeInstant>
+              <ISOTime>2019-12-25T21:57:15.870117</ISOTime>
+            </TimeInstant>
+          </Time>
+        </AstroCoords>
+      </ObservationLocation>
+    </ObsDataLocation>
+  </WhereWhen>
+  <Description>Report of a candidate gravitational wave event</Description>
+  <How>
+    <Description>Candidate gravitational wave event identified by low-latency analysis</Description>
+    <Description>V1: Virgo 3 km gravitational wave detector</Description>
+    <Description>L1: LIGO Livingston 4 km gravitational wave detector</Description>
+  </How>
+</voe:VOEvent>
+"""
+DUMMY_VOEVENT_LIGO = textwrap.dedent(DUMMY_VOEVENT_LIGO).strip().encode('UTF-8')
 
 class DummyLogObserver(object):
     def __init__(self):

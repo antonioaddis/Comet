@@ -1,28 +1,21 @@
-# Comet VOEvent Broker.
-# Tests for EventPrinter plugin.
-
 import sys
-try:
-    from cStringIO import StringIO
-except ImportError:
-    from io import StringIO
-
-import lxml.etree as etree
-
-from twisted.trial import unittest
 import textwrap
-from twisted.plugin import IPlugin
-
+from io import StringIO
+import lxml.etree as etree
 from comet.icomet import IHandler
-from comet.plugins.eventreceiver import EventReceiver
+from twisted.trial import unittest
+from twisted.plugin import IPlugin
 from comet.utility.xml import xml_document
-from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME
+from comet.plugins.eventreceiver import EventReceiver
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO
+
 
 class DummyEvent(object):
-    #element = etree.fromstring(DUMMY_VOEVENT)
+    #Class containing standard voevent from three different networks
     gcn = xml_document(DUMMY_VOEVENT_GCN)
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
+    ligo = xml_document(DUMMY_VOEVENT_LIGO)
 
 
 class EventReceiverTestCase(unittest.TestCase):
@@ -39,5 +32,6 @@ class EventReceiverTestCase(unittest.TestCase):
         event_receiver(dummyevents.chime)
         event_receiver(dummyevents.gcn)
         event_receiver(dummyevents.integral)
+        event_receiver(dummyevents.ligo)
 
         
