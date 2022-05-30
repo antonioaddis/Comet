@@ -1,7 +1,9 @@
 import re
 import json
+import math
 from tokenize import group
 import numpy as np
+import comet.log as log
 import voeventparse as vp
 from datetime import datetime
 from astropy.time import Time
@@ -10,6 +12,7 @@ import lxml.etree as ElementTree
 from comet.utility import voevent
 from astropy.coordinates import SkyCoord
 from comet.utility.xml import xml_document
+
 
 from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO
 
@@ -36,7 +39,7 @@ class Voevent(object):
         self.mark_notice()
 
         self.instrumentId = self.get_instrumentid_from_packet_type()
-        self.seqNum = self.get_seqnum()
+        self.seqNum = 0
         self.triggerId = self.get_triggerID()
         self.packetType = self.get_packet_tipe()
         self.isoTime = self.get_time_from_voe()
@@ -48,9 +51,9 @@ class Voevent(object):
         self.tstart = 0
         self.tstop = 0
         self.last = 1
-        self.contour = "test"
-        self.url = "test"
-        self.attributes = self.get_ligo_attributes() #'{"bbh": 0, "bns": 0.9999947011562164, "far": 0.00000000000009110699364861295, "nsbh": 0, "has_ns": 1, "grace_id": "MS210208t", "mass_gap": 0, "has_remnant": 1, "terrestrial": 0.000005298843783562432}'
+        self.contour = self.get_contour()
+        self.url = self.get_url()
+        self.attributes = self.get_ligo_attributes()
     
 
     def mark_notice(self):
@@ -70,6 +73,7 @@ class Voevent(object):
         if "James Rodi" == self.voevent.Who.Author.contactName.text:
             self.INTEGRAL = True
             return
+        
         
         raise Exception("Notice not supported")
     
@@ -105,17 +109,22 @@ class Voevent(object):
                 return 21
             elif packet_type == 174: #ICECUBE_ASTROTRACK_GOLD
                 return 22
+            else:
+                log.info(f"Voevent with packet type {packet_type} not supported")
+                raise Exception(f"Voevent with packet type {packet_type} not supported")
 
         if self.CHIME:
             return 24 
         if self.INTEGRAL:
             return 23
-
+        log.info("Voevent not supported")
         raise Exception("Voevent not supported")
 
     def get_seqnum(self):
-
-        return 0
+        return self.seqNum
+    
+    def set_seqnum(self, seqnum):
+        self.seqNum = seqnum
 
     def get_triggerID(self):
 
@@ -175,6 +184,7 @@ class Voevent(object):
 
     def get_ligo_attributes(self):
         """
+        eg
         {"bbh": 0, "bns": 0.9999947011562164, "far": 0.00000000000009110699364861295, "nsbh": 0, "has_ns": 1, "grace_id": "MS210208t",
         "mass_gap": 0, "has_remnant": 1, "terrestrial": 0.000005298843783562432}
         """
@@ -195,10 +205,51 @@ class Voevent(object):
         
         return {}
 
+    def get_contour(self):
 
+        if self.l == 0 and self.b == 0:
+            return 0
+        l = 0
+        b = 0
+        r = self.error
+        delta = 0
+        if (r < 0.0000001):
+            r = 0.1
+        steps = int(10. + 10. * r)
+
+        contour = ""
+
+        for i in range(steps):
+            l = self.l - r * math.cos(delta)
+            b = self.b + r * math.sin(delta)
+            if (l < 0):
+                l = 0
+            elif(l >= 360):
+                l = 360
+            elif (l == 0):
+                l = 0
+            if (b < -90):
+                b = -90
+            elif (b > 90):
+                b = 90
+            elif (b == 0):
+                b = 0
+            
+            delta = delta - 2 * math.pi / steps
+
+            contour = contour + f"{l} {b}\n"
+        return contour
+
+    def get_url(self):
+
+        if self.LIGO:
+            grouped_params = vp.get_grouped_params(self.voevent)
+            return  grouped_params["GW_SKYMAP"]["skymap_fits"]["value"]
+        
+        return "none"
 
     def __str__(self):
-        return f"Voevent \n IntrumentID: {self.instrumentId}, seqNum {self.seqNum}, triggerid: {self.triggerId}, packetType: {self.packetType}, time: {self.isoTime}, l: {self.l}, b: {self.b}"
+        return f"Voevent\nIntrumentID: {self.instrumentId}, seqNum {self.seqNum}, triggerid: {self.triggerId}, packetType: {self.packetType},time: {self.isoTime}, l: {self.l}, b: {self.b}, url: {self.url}"
 
 
 if __name__ == "__main__":
