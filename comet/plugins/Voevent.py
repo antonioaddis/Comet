@@ -127,12 +127,18 @@ class Voevent(object):
         self.seqNum = seqnum
 
     def get_triggerID(self):
+        """
+        For LIGO trigger id is only numbers such that:
+        220530p -> 22053016 (p is 16th)
+        """
 
         if self.GCN:
             return self.voevent.What.Param[2].attrib["value"]
         if self.LIGO:
             graceID = self.voevent.What.Param[3].attrib["value"]
-            return re.sub("[^0-9]", "", graceID)
+            last = str(ord(graceID[-1]) - 96)
+            result = re.sub("[^0-9]", "", graceID) + last
+            return result
         else:
             return 0
 
