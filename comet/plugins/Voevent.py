@@ -137,7 +137,7 @@ class Voevent(object):
         if self.LIGO:
             graceID = self.voevent.What.Param[3].attrib["value"]
             last = str(ord(graceID[-1]) - 96)
-            result = re.sub("[^0-9]", "", graceID) + last
+            result = re.sub("[^0-9]", "", graceID) + last.zfill(2)
             return result
         else:
             return 0
