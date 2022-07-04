@@ -144,6 +144,59 @@ DUMMY_VOEVENT_INTEGRAL = u"""
 DUMMY_VOEVENT_INTEGRAL = textwrap.dedent(DUMMY_VOEVENT_INTEGRAL).strip().encode('UTF-8')
 
 
+DUMMY_VOEVENT_AGILE = u"""
+<?xml version='1.0' encoding='UTF-8'?>
+<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="test" ivorn="ivo://dummy.txt#1">
+  <Who>
+    <Description>VOEvent created with voevent-parse, version 1.0.3. See https://github.com/timstaley/voevent-parse for details.</Description>
+    <AuthorIVORN>ivo://AGILE_MCAL_TRIGGER/</AuthorIVORN>
+    <Date>2022-05-30T11:10:32</Date>
+    <Author>
+      <contactName>Andrea Bulgarelli</contactName>
+      <title>Hotwired VOEvent Hands-on</title>
+    </Author>
+  </Who>
+  <What>
+    <Param ucd="phot.mag" value="18.77" name="mag" dataType="float"/>
+    <Group name="historic">
+      <Param ucd="phot.mag" value="19.62" name="hist_mag" dataType="float"/>
+      <Param ucd="phot.mag" value="0.07" name="hist_scatter" dataType="float"/>
+    </Group>
+    <Param ucd="phot.mag" value="18.77" name="mag" dataType="float"/>
+    <Group name="historic">
+      <Param ucd="phot.mag" value="19.62" name="hist_mag" dataType="float"/>
+      <Param ucd="phot.mag" value="0.07" name="hist_scatter" dataType="float"/>
+    </Group>
+  </What>
+  <WhereWhen>
+    <ObsDataLocation>
+      <ObservatoryLocation id="AGILE"/>
+      <ObservationLocation>
+        <AstroCoordSystem id="UTC-FK5-GEO"/>
+        <AstroCoords coord_system_id="UTC-FK5-GEO">
+          <Time unit="s">
+            <TimeInstant>
+              <ISOTime>2022-05-30T11:10:32</ISOTime>
+            </TimeInstant>
+          </Time>
+          <Position2D unit="deg">
+            <Name1>RA</Name1>
+            <Name2>Dec</Name2>
+            <Value2>
+              <C1>0.0</C1>
+              <C2>0.0</C2>
+            </Value2>
+            <Error2Radius>0</Error2Radius>
+          </Position2D>
+        </AstroCoords>
+      </ObservationLocation>
+    </ObsDataLocation>
+  </WhereWhen>
+  <Description>This is not an official AGILE data product.</Description>
+</voe:VOEvent>"""
+DUMMY_VOEVENT_AGILE = textwrap.dedent(DUMMY_VOEVENT_AGILE).strip().encode('UTF-8')
+
+
 DUMMY_VOEVENT_CHIME = u"""
 <?xml version='1.0' encoding='UTF-8'?>
 <voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="observation" ivorn="ivo://ca.chimenet.frb/FRB-DETECTION-#2022-03-20-10:00:28.960760UTC+0000_996ae14090d1">
