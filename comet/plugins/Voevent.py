@@ -20,7 +20,7 @@ from ligo.skymap.postprocess.contour import contour as ligo_contour
 from ligo.skymap.io.fits import read_sky_map
 
 
-from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_2
 
 class DummyEvent(object):
     """
@@ -30,6 +30,7 @@ class DummyEvent(object):
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
     ligo = xml_document(DUMMY_VOEVENT_LIGO)
+    ligo2 = xml_document(DUMMY_VOEVENT_LIGO_2)
 
 
 class Voevent(object):
@@ -68,19 +69,19 @@ class Voevent(object):
         The only common parameter is the contactName, we discriminate among notices using this parameter
         """
         
-        if "Scott Barthelmy" == self.voevent.Who.Author.contactName.text:
+        if "gcn" in self.voevent.attrib['ivorn']:
             self.GCN = True
             return
-        if "LIGO Scientific Collaboration and Virgo Collaboration" == self.voevent.Who.Author.contactName.text:
+        if "gwnet" in self.voevent.attrib['ivorn']:
             self.LIGO = True
             return
-        if "Andrew Zwaniga" == self.voevent.Who.Author.contactName.text:
+        if "chimenet" in self.voevent.attrib['ivorn']:
             self.CHIME = True
             return
-        if "James Rodi" == self.voevent.Who.Author.contactName.text:
+        if "INTEGRAL" in self.voevent.attrib['ivorn']:
             self.INTEGRAL = True
             return
-        if "Andrea Bulgarelli" == self.voevent.Who.Author.contactName.text:
+        if "AGILE" in self.voevent.attrib['ivorn']:
             self.AGILE = True
             return
         
@@ -103,7 +104,7 @@ class Voevent(object):
         if self.GCN or self.LIGO:
             packet_type = int(self.voevent.What.Param[0].attrib["value"])
 
-            if packet_type == [53,54,55]: # INTEGRAL FROM GCN
+            if packet_type in [53,54,55]: # INTEGRAL FROM GCN
                 return 23
             elif packet_type == 97: #SWIFT 
                 return 3
@@ -215,7 +216,10 @@ class Voevent(object):
             attributes["NSBH"] = grouped_params["Classification"]["NSBH"]["value"]
             attributes["HasNs"] = grouped_params["Properties"]["HasNS"]["value"]
             attributes["GraceId"] = self.voevent.What.Param[3].attrib["value"]
-            attributes["MassGap"] = grouped_params["Classification"]["MassGap"]["value"]
+            try:
+                attributes["MassGap"] = grouped_params["Classification"]["MassGap"]["value"]
+            except:
+                attributes["MassGap"] = 0
             attributes["HasRemnant"] = grouped_params["Properties"]["HasRemnant"]["value"]
             attributes["terrestrial"] = grouped_params["Classification"]["Terrestrial"]["value"]
 
@@ -319,14 +323,17 @@ if __name__ == "__main__":
     voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
     voe_integral = vp.loads(dummyevents.integral.raw_bytes)
     voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
+    voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
     
     v_chime = Voevent(voe_chime)
     v_gcn = Voevent(voe_gcn)
     v_integral = Voevent(voe_integral)
     v_ligo = Voevent(voe_ligo)
+    v_ligo2 = Voevent(voe_ligo_2)
 
     #print(v_chime)
     #print(v_gcn)
     #print(v_integral)
-    print(v_ligo)
+    #print(v_ligo)
+    print(v_ligo2)
 
