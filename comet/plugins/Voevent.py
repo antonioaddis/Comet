@@ -1,3 +1,4 @@
+import os
 import re
 import json
 import math
@@ -232,7 +233,7 @@ class Voevent(object):
                 with open(target_path, 'wb') as f:
                     f.write(response.raw.read())
 
-            #Implementing the code from ligo-countour tool, the level is hardcoded
+            #Implementing the code from ligo-countour tool, the level [90] is hardcoded
 
             m, meta = read_sky_map(target_path, nest=True)
             i = np.flipud(np.argsort(m))
@@ -243,7 +244,7 @@ class Voevent(object):
 
             cont = list(ligo_contour(cls, [90.0], nest=True, degrees=True, simplify=False))
             
-            #Conversion to galactic: it's customize for one level to be more efficient
+            #Conversion to galactic: it's customized for one level to be more efficient
             ra = []
             dec = []
             for level in cont:
@@ -256,6 +257,8 @@ class Voevent(object):
             contour = ""
             for coords in c.to_string():
                 contour = contour + f"{coords}\n"
+
+            os.remove(target_path)
 
             return contour
 
