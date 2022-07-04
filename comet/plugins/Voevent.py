@@ -92,6 +92,7 @@ class Voevent(object):
         """
         Packet type description available at https://gcn.gsfc.nasa.gov/sock_pkt_def_doc.html
         Eg:
+            INTEGRAL [53,54,55]
             SWIFT [46,47, 60 to 99, 103, 133, 140, 141]
             FERMI_GBM [110 to 119, 144]
             FERMI_LAT [120,121,122,123,124,125,127,128]
@@ -102,14 +103,15 @@ class Voevent(object):
         if self.GCN or self.LIGO:
             packet_type = int(self.voevent.What.Param[0].attrib["value"])
 
-
-            if packet_type == 97: #SWIFT 
+            if packet_type == [53,54,55]: # INTEGRAL FROM GCN
+                return 23
+            elif packet_type == 97: #SWIFT 
                 return 3
             elif packet_type == 111:  #FERMI_GBM 
                 return 1
             elif packet_type in [125,128]: #FERMI_LAT 
                 return 2
-            elif packet_type in [150, 151, 152, 163]: #LIGO or LIGO_TEST
+            elif packet_type in [150, 151, 152, 163]: #LIGO and LIGO_TEST TBD
                 return 7
             elif packet_type == 158: #ICECUBE_HESE
                 return 8
@@ -125,7 +127,7 @@ class Voevent(object):
 
         if self.CHIME:
             return 24 
-        if self.INTEGRAL:
+        if self.INTEGRAL: # INTEGRAL subthrsld from James Rodi
             return 23
         log.info("Voevent not supported")
         raise Exception("Voevent not supported")
@@ -318,9 +320,9 @@ if __name__ == "__main__":
     voe_integral = vp.loads(dummyevents.integral.raw_bytes)
     voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
     
-    #v_chime = Voevent(voe_chime)
-    #v_gcn = Voevent(voe_gcn)
-    #v_integral = Voevent(voe_integral)
+    v_chime = Voevent(voe_chime)
+    v_gcn = Voevent(voe_gcn)
+    v_integral = Voevent(voe_integral)
     v_ligo = Voevent(voe_ligo)
 
     #print(v_chime)
