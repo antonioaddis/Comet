@@ -9,7 +9,7 @@ from twisted.plugin import IPlugin
 
 from comet.icomet import IHandler, IHasOptions
 from comet.utility import xml_document
-from comet.testutils import DUMMY_VOEVENT, temp_dir
+#from comet.testutils import DUMMY_VOEVENT, temp_dir
 from comet.plugins.eventwriter import EventWriter
 from comet.plugins.eventwriter import string_to_filename
 from comet.plugins.eventwriter import event_file

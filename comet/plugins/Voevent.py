@@ -114,7 +114,10 @@ class Voevent(object):
             elif packet_type in [125,128]: #FERMI_LAT 
                 return 2
             elif packet_type in [150, 151, 152, 163]: #LIGO and LIGO_TEST TBD
-                return 7
+                if  "test" in self.voevent.attrib['role']:
+                    return 19
+                if  "observation" in self.voevent.attrib['role']:
+                    return 7
             elif packet_type == 158: #ICECUBE_HESE
                 return 8
             elif packet_type == 169: #ICECUBE_EHE
