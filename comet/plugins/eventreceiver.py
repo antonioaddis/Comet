@@ -67,7 +67,7 @@ class EventReceiver(object):
 
         ###########
 
-        noticetime = datetime.now().isoformat(timespec="seconds")
+        noticetime = datetime.utcnow().isoformat(timespec="seconds")
 
 
         query = f"INSERT INTO notice (receivedsciencealertid, seqnum, l, b, error, contour, `last`, `type`, configuration, noticetime, notice, tstart, tstop, url, `attributes`, afisscheck) VALUES ({receivedsciencealertid}, {voevent.seqNum}, {voevent.l}, {voevent.b}, {voevent.error}, '{voevent.contour}', {voevent.last}, {voevent.packetType}, '{voevent.configuration}', '{noticetime}', '{voevent.notice}', {voevent.tstart}, {voevent.tstop}, '{voevent.url}', '{voevent.attributes}', 0);"
