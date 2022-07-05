@@ -20,7 +20,7 @@ from ligo.skymap.postprocess.contour import contour as ligo_contour
 from ligo.skymap.io.fits import read_sky_map
 
 
-from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_2
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_2, DUMMY_VOEVENT_LIGO_INITIAL
 
 class DummyEvent(object):
     """
@@ -31,6 +31,7 @@ class DummyEvent(object):
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
     ligo = xml_document(DUMMY_VOEVENT_LIGO)
     ligo2 = xml_document(DUMMY_VOEVENT_LIGO_2)
+    ligo_initial = xml_document(DUMMY_VOEVENT_LIGO_INITIAL)
 
 
 class Voevent(object):
@@ -324,16 +325,18 @@ if __name__ == "__main__":
     voe_integral = vp.loads(dummyevents.integral.raw_bytes)
     voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
     voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
-    
-    v_chime = Voevent(voe_chime)
-    v_gcn = Voevent(voe_gcn)
-    v_integral = Voevent(voe_integral)
-    v_ligo = Voevent(voe_ligo)
-    v_ligo2 = Voevent(voe_ligo_2)
+    voe_ligo_init = vp.loads(dummyevents.ligo_initial.raw_bytes)
+
+    #v_chime = Voevent(voe_chime)
+    #v_gcn = Voevent(voe_gcn)
+    #v_integral = Voevent(voe_integral)
+    #v_ligo = Voevent(voe_ligo)
+    #v_ligo2 = Voevent(voe_ligo_2)
+    v_ligo_init = Voevent(voe_ligo_init)
 
     #print(v_chime)
     #print(v_gcn)
     #print(v_integral)
-    #print(v_ligo)
-    print(v_ligo2)
+    #print(v_ligo2)
+    print(v_ligo_init)
 
