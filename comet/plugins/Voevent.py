@@ -3,12 +3,11 @@ import re
 import json
 import math
 import requests
-from datetime import datetime
-from tokenize import group
 import numpy as np
-import healpy
 import comet.log as log
 import voeventparse as vp
+from tokenize import group
+from datetime import datetime
 from datetime import datetime
 from astropy.time import Time
 from astropy import units as u
@@ -16,10 +15,8 @@ import lxml.etree as ElementTree
 from comet.utility import voevent
 from astropy.coordinates import SkyCoord
 from comet.utility.xml import xml_document
-from ligo.skymap.postprocess.contour import contour as ligo_contour
 from ligo.skymap.io.fits import read_sky_map
-
-
+from ligo.skymap.postprocess.contour import contour as ligo_contour
 from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_PRELIMINARY, DUMMY_VOEVENT_LIGO_INITIAL
 
 class DummyEvent(object):
@@ -56,7 +53,7 @@ class Voevent(object):
         self.l, self.b = self.get_l_b()
         self.error = self.get_position_error()
         self.notice = vp.prettystr(self.voevent)
-        self.configuration = "test"
+        self.configuration = self.get_configuration()
         self.tstart = 0
         self.tstop = 0
         self.last = 1
@@ -67,7 +64,7 @@ class Voevent(object):
 
     def mark_notice(self):
         """
-        The only common parameter is the contactName, we discriminate among notices using this parameter
+        The only common parameter is ivorn, we discriminate among notices using this parameter
         """
         
         if "gcn" in self.voevent.attrib['ivorn']:
@@ -144,6 +141,12 @@ class Voevent(object):
     def set_seqnum(self, seqnum):
         self.seqNum = seqnum
 
+    def get_configuration(self):
+        if self.LIGO:
+            return self.voevent.What.Param[8].attrib["value"]
+        else:
+            return "None"
+    
     def get_triggerID(self):
         """
         For LIGO trigger id is only numbers such that:
@@ -179,9 +182,8 @@ class Voevent(object):
         Possible networks
         - GCN network
         - Chimenet
-        - INTEGRAL notices from James Rodi
+        - INTEGRAL subthreshold notices from James Rodi
         """
-
         if self.GCN or self.LIGO:
             return 1
         if self.CHIME:
@@ -235,6 +237,9 @@ class Voevent(object):
     def get_contour(self):
 
         if self.LIGO:
+            """
+            For LIGO instrument we call contour function from ligo-contour tool
+            """
             url = self.url
             now = datetime.now().strftime("%Y-%m-%d:%H:%M:%S")
             target_path = f'/tmp/skymap_{now}.tar.gz'
@@ -255,7 +260,7 @@ class Voevent(object):
 
             cont = list(ligo_contour(cls, [90.0], nest=True, degrees=True, simplify=False))
             
-            #Conversion to galactic: it's customized for one level to be more efficient
+            #Conversion to galactic: it's customized for one level to be more efficient, it uses approx 3 GB RAM
             ra = []
             dec = []
             for level in cont:
@@ -275,6 +280,9 @@ class Voevent(object):
 
         
         if self.GCN:
+            """
+            Code copied from https://github.com/ASTRO-EDU/AlertReceiver_GCNnetwork/blob/117ce436b7003af14843cd6fd97ed0c0e1d90eb5/gcn/alert.c#L161
+            """
             if self.l == 0 and self.b == 0:
                 return 0
             l = 0
@@ -331,16 +339,16 @@ if __name__ == "__main__":
     voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
     voe_ligo_init = vp.loads(dummyevents.ligo_initial.raw_bytes)
 
-    #v_chime = Voevent(voe_chime)
-    #v_gcn = Voevent(voe_gcn)
-    #v_integral = Voevent(voe_integral)
-    #v_ligo = Voevent(voe_ligo)
-    #v_ligo2 = Voevent(voe_ligo_2)
+    v_chime = Voevent(voe_chime)
+    v_gcn = Voevent(voe_gcn)
+    v_integral = Voevent(voe_integral)
+    v_ligo = Voevent(voe_ligo)
+    v_ligo2 = Voevent(voe_ligo_2)
     v_ligo_init = Voevent(voe_ligo_init)
 
-    #print(v_chime)
-    #print(v_gcn)
-    #print(v_integral)
-    #print(v_ligo2)
-    print(v_ligo_init)
+    print(v_chime.configuration)
+    print(v_gcn.configuration)
+    print(v_integral.configuration)
+    print(v_ligo2.configuration)
+    print(v_ligo_init.configuration)
 

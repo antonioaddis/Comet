@@ -11,7 +11,9 @@ from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOE
 
 
 class DummyEvent(object):
-    #Class containing standard voevent from three different networks
+    """
+    Class containing standard voevent from different networks. VoEvent are stored in testUtils folder
+    """
     gcn = xml_document(DUMMY_VOEVENT_GCN)
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)

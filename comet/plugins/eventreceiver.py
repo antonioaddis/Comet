@@ -92,7 +92,6 @@ class EventReceiver(object):
 
 
         query = f"INSERT INTO notice (receivedsciencealertid, seqnum, l, b, error, contour, `last`, `type`, configuration, noticetime, notice, tstart, tstop, url, `attributes`, afisscheck) VALUES ({receivedsciencealertid}, {voevent.seqNum}, {voevent.l}, {voevent.b}, {voevent.error}, '{voevent.contour}', {voevent.last}, {voevent.packetType}, '{voevent.configuration}', '{noticetime}', '{voevent.notice}', {voevent.tstart}, {voevent.tstop}, '{voevent.url}', '{voevent.attributes}', 0);"
-        print(f"SEQNUM IS {voevent.seqNum}")
         cursor.execute(query)
         cnx.commit()
 
@@ -109,9 +108,6 @@ class EventReceiver(object):
 
         self.add_notice_mysql(voevent)
         #doc = xmltodict.parse(vp.dumps(v))
-        # Query exemple: select notices with shortname INTEGRAL (via VO-GCN)
-        # {'voe:VOEvent.Who.Author.shortName': "INTEGRAL (via VO-GCN)"}
-        #x = collection.insert_one(doc)
         #print("Ivorn:", v.attrib['ivorn'])
         #print("Role:", v.attrib['role'])
         #print("AuthorIVORN:", v.Who.AuthorIVORN)
