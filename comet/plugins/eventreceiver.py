@@ -44,33 +44,55 @@ class EventReceiver(object):
         
         cursor = cnx.cursor()
 
+        #check if the query is null the alert is not present -> it will be inserted into receivedsciencealert table
 
-        #query = f"SELECT receivedsciencealertid FROM receivedsciencealert WHERE instrumentid = {instrumentID} AND triggerid = {triggerID};"
+        query = f"SELECT receivedsciencealertid FROM receivedsciencealert WHERE instrumentid = {voevent.instrumentId} AND triggerid = {voevent.triggerId};"
+        cursor.execute(query)
 
-        #if the query is null the alert is not present -> it will be inserted into receivedsciencealert table
+        check_rsa = cursor.fetchone()
 
-        #insert
+        if check_rsa is None:
+            #insert
+            #####################
+
+            query = f"INSERT INTO receivedsciencealert (instrumentid, networkid, time, triggerid) VALUES ({voevent.instrumentId}, {voevent.networkId}, {voevent.isoTime}, {voevent.triggerId});"
+            #print(f"query1 {query}")
+            cursor.execute(query)
+            cnx.commit()
+
+
+            receivedsciencealertid = cursor.lastrowid
+        else:
+            receivedsciencealertid = int(check_rsa[0])
+            
+        #seqnum handling
         #####################
+        if voevent.seqNum == -1:
+        
+            query = f"SELECT seqnum FROM notice n join receivedsciencealert rsa ON (rsa.receivedsciencealertid = n.receivedsciencealertid) WHERE last = 1 AND rsa.instrumentid = {voevent.instrumentId} AND rsa.triggerid = {voevent.triggerId}"
+            cursor.execute(query)
+            result_seqnum = cursor.fetchone()
 
-        query = f"INSERT INTO receivedsciencealert (instrumentid, networkid, time, triggerid) VALUES ({voevent.instrumentId}, {voevent.networkId}, {voevent.isoTime}, {voevent.triggerId});"
-        #print(f"query1 {query}")
+            try:
+                voevent.seqNum = int(result_seqnum[0]) + 1 
+            except:
+                voevent.seqNum = 0
+
+        #last handling
+        ######################
+        query = f"UPDATE notice SET last = 0 WHERE last = 1 AND receivedsciencealertid = {receivedsciencealertid};"
         cursor.execute(query)
         cnx.commit()
 
 
-        receivedsciencealertid = cursor.lastrowid
-        #print(f"lastrowid: {receivedsciencealertid}")
-        #####################
-
-        #query = f"SELECT seqnum FROM notice n join receivedsciencealert rsa ON (rsa.receivedsciencealertid = n.receivedsciencealertid) WHERE last = 1 AND rsa.instrumentid = {instrumentID} AND rsa.triggerid = {triggerID}"
-        
-
-        ###########
+        #insert in notice table
+        #######################
 
         noticetime = datetime.utcnow().isoformat(timespec="seconds")
 
 
         query = f"INSERT INTO notice (receivedsciencealertid, seqnum, l, b, error, contour, `last`, `type`, configuration, noticetime, notice, tstart, tstop, url, `attributes`, afisscheck) VALUES ({receivedsciencealertid}, {voevent.seqNum}, {voevent.l}, {voevent.b}, {voevent.error}, '{voevent.contour}', {voevent.last}, {voevent.packetType}, '{voevent.configuration}', '{noticetime}', '{voevent.notice}', {voevent.tstart}, {voevent.tstop}, '{voevent.url}', '{voevent.attributes}', 0);"
+        print(f"SEQNUM IS {voevent.seqNum}")
         cursor.execute(query)
         cnx.commit()
 

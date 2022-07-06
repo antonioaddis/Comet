@@ -536,11 +536,11 @@ DUMMY_VOEVENT_LIGO = u"""
 """
 DUMMY_VOEVENT_LIGO = textwrap.dedent(DUMMY_VOEVENT_LIGO).strip().encode('UTF-8')
 
-DUMMY_VOEVENT_LIGO_2 = u"""
-<?xml version='1.0' encoding='UTF-8'?>
-<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="test" ivorn="ivo://gwnet/LVC#MS220704o-2-Preliminary">
+DUMMY_VOEVENT_LIGO_PRELIMINARY = u"""
+<?xml version="1.0" encoding="UTF-8"?>
+<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="test" ivorn="ivo://gwnet/LVC#MS220706b-1-Preliminary">
   <Who>
-    <Date>2022-07-04T14:43:59</Date>
+    <Date>2022-07-06T01:38:52</Date>
     <Author>
       <contactName>LIGO Scientific Collaboration and Virgo Collaboration</contactName>
     </Author>
@@ -552,10 +552,10 @@ DUMMY_VOEVENT_LIGO_2 = u"""
     <Param name="internal" value="0" dataType="int">
       <Description>Indicates whether this event should be distributed to LSC/Virgo members only</Description>
     </Param>
-    <Param name="Pkt_Ser_Num" value="2" dataType="int">
+    <Param name="Pkt_Ser_Num" value="1" dataType="int">
       <Description>A number that increments by 1 each time a new revision is issued for this event</Description>
     </Param>
-    <Param name="GraceID" value="MS220704o" ucd="meta.id" dataType="string">
+    <Param name="GraceID" value="MS220706b" ucd="meta.id" dataType="string">
       <Description>Identifier in GraceDB</Description>
     </Param>
     <Param name="AlertType" value="Preliminary" ucd="meta.version" dataType="string">
@@ -567,7 +567,7 @@ DUMMY_VOEVENT_LIGO_2 = u"""
     <Param name="OpenAlert" value="1" ucd="meta.number" dataType="int">
       <Description>Indicates that this event is an open alert if 1, no if 0</Description>
     </Param>
-    <Param name="EventPage" value="https://gracedb.ligo.org/superevents/MS220704o/view/" ucd="meta.ref.url" dataType="string">
+    <Param name="EventPage" value="https://gracedb.ligo.org/superevents/MS220706b/view/" ucd="meta.ref.url" dataType="string">
       <Description>Web page for evolving status of this GW candidate</Description>
     </Param>
     <Param name="Instruments" value="H1,L1" ucd="meta.code" dataType="string">
@@ -586,12 +586,12 @@ DUMMY_VOEVENT_LIGO_2 = u"""
       <Description>Specific low-latency search</Description>
     </Param>
     <Group name="GW_SKYMAP" type="GW_SKYMAP">
-      <Param name="skymap_fits" value="https://gracedb.ligo.org/api/superevents/MS220704o/files/bayestar.fits.gz,1" ucd="meta.ref.url" dataType="string">
+      <Param name="skymap_fits" value="https://gracedb.ligo.org/api/superevents/MS220706b/files/bayestar.fits.gz,0" ucd="meta.ref.url" dataType="string">
         <Description>Sky Map FITS</Description>
       </Param>
     </Group>
     <Group name="Classification" type="Classification">
-      <Param name="BNS" value="0.9999969292103056" ucd="stat.probability" dataType="float">
+      <Param name="BNS" value="0.9999773696256827" ucd="stat.probability" dataType="float">
         <Description>Probability that the source is a binary neutron star merger (both objects lighter than 3 solar masses)</Description>
       </Param>
       <Param name="NSBH" value="0.0" ucd="stat.probability" dataType="float">
@@ -600,7 +600,7 @@ DUMMY_VOEVENT_LIGO_2 = u"""
       <Param name="BBH" value="0.0" ucd="stat.probability" dataType="float">
         <Description>Probability that the source is a binary black hole merger (both objects heavier than 5 solar masses)</Description>
       </Param>
-      <Param name="Terrestrial" value="3.070789694470475e-06" ucd="stat.probability" dataType="float">
+      <Param name="Terrestrial" value="2.2630374317225275e-05" ucd="stat.probability" dataType="float">
         <Description>Probability that the source is terrestrial (i.e., a background noise fluctuation or a glitch)</Description>
       </Param>
       <Description>Source classification: binary neutron star (BNS), neutron star-black hole (NSBH), binary black hole (BBH), MassGap, or terrestrial (noise)</Description>
@@ -623,7 +623,7 @@ DUMMY_VOEVENT_LIGO_2 = u"""
         <AstroCoords coord_system_id="UTC-FK5-GEO">
           <Time unit="s">
             <TimeInstant>
-              <ISOTime>2022-07-04T14:36:16</ISOTime>
+              <ISOTime>2022-07-06T01:37:25</ISOTime>
             </TimeInstant>
           </Time>
         </AstroCoords>
@@ -636,13 +636,9 @@ DUMMY_VOEVENT_LIGO_2 = u"""
     <Description>H1: LIGO Hanford 4 km gravitational wave detector</Description>
     <Description>L1: LIGO Livingston 4 km gravitational wave detector</Description>
   </How>
-  <Citations>
-    <EventIVORN cite="supersedes">ivo://gwnet/LVC#MS220704o-1-Preliminary</EventIVORN>
-    <Description>Initial localization is now available (preliminary)</Description>
-  </Citations>
 </voe:VOEvent>
 """
-DUMMY_VOEVENT_LIGO_2 = textwrap.dedent(DUMMY_VOEVENT_LIGO_2).strip().encode('UTF-8')
+DUMMY_VOEVENT_LIGO_PRELIMINARY = textwrap.dedent(DUMMY_VOEVENT_LIGO_PRELIMINARY).strip().encode('UTF-8')
 
 DUMMY_VOEVENT_INTEGRAL_GCN = u"""
 """
@@ -650,9 +646,9 @@ DUMMY_VOEVENT_INTEGRAL_GCN = textwrap.dedent(DUMMY_VOEVENT_INTEGRAL_GCN).strip()
 
 DUMMY_VOEVENT_LIGO_INITIAL = u"""
 <?xml version="1.0" encoding="UTF-8"?>
-<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="test" ivorn="ivo://gwnet/LVC#MS220705e-3-Initial">
+<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="test" ivorn="ivo://gwnet/LVC#MS220706b-3-Initial">
   <Who>
-    <Date>2022-07-05T04:48:02</Date>
+    <Date>2022-07-06T01:48:55</Date>
     <Author>
       <contactName>LIGO Scientific Collaboration and Virgo Collaboration</contactName>
     </Author>
@@ -667,7 +663,7 @@ DUMMY_VOEVENT_LIGO_INITIAL = u"""
     <Param name="Pkt_Ser_Num" value="3" dataType="int">
       <Description>A number that increments by 1 each time a new revision is issued for this event</Description>
     </Param>
-    <Param name="GraceID" value="MS220705e" ucd="meta.id" dataType="string">
+    <Param name="GraceID" value="MS220706b" ucd="meta.id" dataType="string">
       <Description>Identifier in GraceDB</Description>
     </Param>
     <Param name="AlertType" value="Initial" ucd="meta.version" dataType="string">
@@ -679,13 +675,13 @@ DUMMY_VOEVENT_LIGO_INITIAL = u"""
     <Param name="OpenAlert" value="1" ucd="meta.number" dataType="int">
       <Description>Indicates that this event is an open alert if 1, no if 0</Description>
     </Param>
-    <Param name="EventPage" value="https://gracedb.ligo.org/superevents/MS220705e/view/" ucd="meta.ref.url" dataType="string">
+    <Param name="EventPage" value="https://gracedb.ligo.org/superevents/MS220706b/view/" ucd="meta.ref.url" dataType="string">
       <Description>Web page for evolving status of this GW candidate</Description>
     </Param>
-    <Param name="Instruments" value="H1,L1,V1" ucd="meta.code" dataType="string">
+    <Param name="Instruments" value="H1,L1" ucd="meta.code" dataType="string">
       <Description>List of instruments used in analysis to identify this event</Description>
     </Param>
-    <Param name="FAR" value="4.846204982398931e-15" unit="Hz" ucd="arith.rate;stat.falsealarm" dataType="float">
+    <Param name="FAR" value="9.110699364861297e-14" unit="Hz" ucd="arith.rate;stat.falsealarm" dataType="float">
       <Description>False alarm rate for GW candidates with this strength or greater</Description>
     </Param>
     <Param name="Group" value="CBC" ucd="meta.code" dataType="string">
@@ -698,12 +694,12 @@ DUMMY_VOEVENT_LIGO_INITIAL = u"""
       <Description>Specific low-latency search</Description>
     </Param>
     <Group name="GW_SKYMAP" type="GW_SKYMAP">
-      <Param name="skymap_fits" value="https://gracedb.ligo.org/api/superevents/MS220705e/files/bayestar.fits.gz,1" ucd="meta.ref.url" dataType="string">
+      <Param name="skymap_fits" value="https://gracedb.ligo.org/api/superevents/MS220706b/files/bayestar.fits.gz,1" ucd="meta.ref.url" dataType="string">
         <Description>Sky Map FITS</Description>
       </Param>
     </Group>
     <Group name="Classification" type="Classification">
-      <Param name="BNS" value="0.9999998681071812" ucd="stat.probability" dataType="float">
+      <Param name="BNS" value="0.9999773696256827" ucd="stat.probability" dataType="float">
         <Description>Probability that the source is a binary neutron star merger (both objects lighter than 3 solar masses)</Description>
       </Param>
       <Param name="NSBH" value="0.0" ucd="stat.probability" dataType="float">
@@ -712,7 +708,7 @@ DUMMY_VOEVENT_LIGO_INITIAL = u"""
       <Param name="BBH" value="0.0" ucd="stat.probability" dataType="float">
         <Description>Probability that the source is a binary black hole merger (both objects heavier than 5 solar masses)</Description>
       </Param>
-      <Param name="Terrestrial" value="1.3189281872162882e-07" ucd="stat.probability" dataType="float">
+      <Param name="Terrestrial" value="2.2630374317225275e-05" ucd="stat.probability" dataType="float">
         <Description>Probability that the source is terrestrial (i.e., a background noise fluctuation or a glitch)</Description>
       </Param>
       <Description>Source classification: binary neutron star (BNS), neutron star-black hole (NSBH), binary black hole (BBH), MassGap, or terrestrial (noise)</Description>
@@ -735,7 +731,7 @@ DUMMY_VOEVENT_LIGO_INITIAL = u"""
         <AstroCoords coord_system_id="UTC-FK5-GEO">
           <Time unit="s">
             <TimeInstant>
-              <ISOTime>2022-07-05T04:32:03</ISOTime>
+              <ISOTime>2022-07-06T01:37:25</ISOTime>
             </TimeInstant>
           </Time>
         </AstroCoords>
@@ -747,11 +743,10 @@ DUMMY_VOEVENT_LIGO_INITIAL = u"""
     <Description>Candidate gravitational wave event identified by low-latency analysis</Description>
     <Description>H1: LIGO Hanford 4 km gravitational wave detector</Description>
     <Description>L1: LIGO Livingston 4 km gravitational wave detector</Description>
-    <Description>V1: Virgo 3 km gravitational wave detector</Description>
   </How>
   <Citations>
-    <EventIVORN cite="supersedes">ivo://gwnet/LVC#MS220705e-2-Preliminary</EventIVORN>
-    <EventIVORN cite="supersedes">ivo://gwnet/LVC#MS220705e-1-Preliminary</EventIVORN>
+    <EventIVORN cite="supersedes">ivo://gwnet/LVC#MS220706b-2-Preliminary</EventIVORN>
+    <EventIVORN cite="supersedes">ivo://gwnet/LVC#MS220706b-1-Preliminary</EventIVORN>
     <Description>Initial localization is now available</Description>
   </Citations>
 </voe:VOEvent>

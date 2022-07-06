@@ -20,7 +20,7 @@ from ligo.skymap.postprocess.contour import contour as ligo_contour
 from ligo.skymap.io.fits import read_sky_map
 
 
-from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_2, DUMMY_VOEVENT_LIGO_INITIAL
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_PRELIMINARY, DUMMY_VOEVENT_LIGO_INITIAL
 
 class DummyEvent(object):
     """
@@ -30,7 +30,7 @@ class DummyEvent(object):
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
     ligo = xml_document(DUMMY_VOEVENT_LIGO)
-    ligo2 = xml_document(DUMMY_VOEVENT_LIGO_2)
+    ligo2 = xml_document(DUMMY_VOEVENT_LIGO_PRELIMINARY)
     ligo_initial = xml_document(DUMMY_VOEVENT_LIGO_INITIAL)
 
 
@@ -48,7 +48,7 @@ class Voevent(object):
         self.mark_notice()
 
         self.instrumentId = self.get_instrumentid_from_packet_type()
-        self.seqNum = 0
+        self.seqNum = -1
         self.triggerId = self.get_triggerID()
         self.packetType = self.get_packet_tipe()
         self.isoTime = self.get_time_from_voe()
@@ -98,6 +98,7 @@ class Voevent(object):
             SWIFT [46,47, 60 to 99, 103, 133, 140, 141]
             FERMI_GBM [110 to 119, 144]
             FERMI_LAT [120,121,122,123,124,125,127,128]
+            MAXI [134,135,136]
             LIGO [150, 151, 152]
             ICECUBE [173, 174]
 
