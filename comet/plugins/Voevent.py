@@ -271,7 +271,7 @@ class Voevent(object):
             
             c = SkyCoord(ra=ra*u.degree, dec=dec*u.degree)
             contour = ""
-            for coords in c.to_string():
+            for coords in c.galactic.to_string():
                 contour = contour + f"{coords}\n"
 
             os.remove(target_path)
@@ -332,23 +332,23 @@ if __name__ == "__main__":
     
     dummyevents = DummyEvent()
 
-    voe_chime = vp.loads(dummyevents.chime.raw_bytes)
-    voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
-    voe_integral = vp.loads(dummyevents.integral.raw_bytes)
+    #voe_chime = vp.loads(dummyevents.chime.raw_bytes)
+    #voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
+    #voe_integral = vp.loads(dummyevents.integral.raw_bytes)
     voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
     voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
     voe_ligo_init = vp.loads(dummyevents.ligo_initial.raw_bytes)
 
-    v_chime = Voevent(voe_chime)
-    v_gcn = Voevent(voe_gcn)
-    v_integral = Voevent(voe_integral)
-    v_ligo = Voevent(voe_ligo)
+    #v_chime = Voevent(voe_chime)
+    #v_gcn = Voevent(voe_gcn)
+    #v_integral = Voevent(voe_integral)
+    #v_ligo = Voevent(voe_ligo)
     v_ligo2 = Voevent(voe_ligo_2)
-    v_ligo_init = Voevent(voe_ligo_init)
+    #v_ligo_init = Voevent(voe_ligo_init)
 
-    print(v_chime.configuration)
-    print(v_gcn.configuration)
-    print(v_integral.configuration)
+    #print(v_chime.configuration)
+    #print(v_gcn.configuration)
+    #print(v_integral.configuration)
     print(v_ligo2.configuration)
-    print(v_ligo_init.configuration)
+    #print(v_ligo_init.configuration)
 
