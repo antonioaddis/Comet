@@ -17,7 +17,9 @@ from astropy.coordinates import SkyCoord
 from comet.utility.xml import xml_document
 from ligo.skymap.io.fits import read_sky_map
 from ligo.skymap.postprocess.contour import contour as ligo_contour
-from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_PRELIMINARY, DUMMY_VOEVENT_LIGO_INITIAL
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_GCN_FERMI, DUMMY_VOEVENT_INTEGRAL, \
+    DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_PRELIMINARY, DUMMY_VOEVENT_LIGO_INITIAL, \
+    DUMMY_VOEVENT_GCN_FERMI \
 
 class DummyEvent(object):
     """
@@ -26,6 +28,7 @@ class DummyEvent(object):
     gcn = xml_document(DUMMY_VOEVENT_GCN)
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
+    fermi = xml_document(DUMMY_VOEVENT_GCN_FERMI) 
     ligo = xml_document(DUMMY_VOEVENT_LIGO)
     ligo2 = xml_document(DUMMY_VOEVENT_LIGO_PRELIMINARY)
     ligo_initial = xml_document(DUMMY_VOEVENT_LIGO_INITIAL)
@@ -143,7 +146,8 @@ class Voevent(object):
 
     def get_configuration(self):
         if self.LIGO:
-            return self.voevent.What.Param[8].attrib["value"]
+            top_params = vp.get_toplevel_params(self.voevent)
+            return top_params["Instruments"]["value"]
         else:
             return "None"
     
@@ -154,9 +158,12 @@ class Voevent(object):
         """
 
         if self.GCN:
-            return self.voevent.What.Param[2].attrib["value"]
+            top_params = vp.get_toplevel_params(self.voevent)
+            return top_params["TrigID"]["value"]
+            
         if self.LIGO:
-            graceID = self.voevent.What.Param[3].attrib["value"]
+            top_params = vp.get_toplevel_params(self.voevent)
+            graceID = top_params["GraceID"]["value"]
             last = str(ord(graceID[-1]) - 96)
             result = re.sub("[^0-9]", "", graceID) + last.zfill(2)
             return result
@@ -166,7 +173,8 @@ class Voevent(object):
     def get_packet_tipe(self):
 
         if self.GCN or self.LIGO:
-            return self.voevent.What.Param[0].attrib["value"]
+            top_params = vp.get_toplevel_params(self.voevent)
+            return top_params["Packet_Type"]["value"]
         else:
             return 0
 
@@ -215,14 +223,15 @@ class Voevent(object):
         "mass_gap": 0, "has_remnant": 1, "terrestrial": 0.000005298843783562432}
         """
         if self.LIGO:
+            top_params = vp.get_toplevel_params(self.voevent)
             grouped_params = vp.get_grouped_params(self.voevent)
             attributes = {}
             attributes["BBH"] = grouped_params["Classification"]["BBH"]["value"]
             attributes["BNS"] = grouped_params["Classification"]["BNS"]["value"]
-            attributes["far"] = self.voevent.What.Param[9].attrib["value"]
+            attributes["far"] = top_params["FAR"]["value"]
             attributes["NSBH"] = grouped_params["Classification"]["NSBH"]["value"]
             attributes["HasNs"] = grouped_params["Properties"]["HasNS"]["value"]
-            attributes["GraceId"] = self.voevent.What.Param[3].attrib["value"]
+            attributes["GraceId"] = top_params["GraceID"]["value"]
             try:
                 attributes["MassGap"] = grouped_params["Classification"]["MassGap"]["value"]
             except:
@@ -332,23 +341,27 @@ if __name__ == "__main__":
     
     dummyevents = DummyEvent()
 
-    #voe_chime = vp.loads(dummyevents.chime.raw_bytes)
-    #voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
-    #voe_integral = vp.loads(dummyevents.integral.raw_bytes)
+    voe_chime = vp.loads(dummyevents.chime.raw_bytes)
+    voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
+    voe_integral = vp.loads(dummyevents.integral.raw_bytes)
+    voe_fermi = vp.loads(dummyevents.fermi.raw_bytes)
     voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
     voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
     voe_ligo_init = vp.loads(dummyevents.ligo_initial.raw_bytes)
 
-    #v_chime = Voevent(voe_chime)
-    #v_gcn = Voevent(voe_gcn)
-    #v_integral = Voevent(voe_integral)
-    #v_ligo = Voevent(voe_ligo)
+    v_chime = Voevent(voe_chime)
+    v_gcn = Voevent(voe_gcn)
+    v_integral = Voevent(voe_integral)
+    v_ligo = Voevent(voe_ligo)
     v_ligo2 = Voevent(voe_ligo_2)
-    #v_ligo_init = Voevent(voe_ligo_init)
+    v_fermi = Voevent(voe_fermi)
+    v_ligo_init = Voevent(voe_ligo_init)
 
-    #print(v_chime.configuration)
-    #print(v_gcn.configuration)
-    #print(v_integral.configuration)
-    print(v_ligo2.configuration)
-    #print(v_ligo_init.configuration)
+    print(v_chime)
+    print(v_gcn)
+    print(v_integral)
+    print(v_fermi)
+    print(v_ligo)
+    print(v_ligo2)
+    print(v_ligo_init)
 
