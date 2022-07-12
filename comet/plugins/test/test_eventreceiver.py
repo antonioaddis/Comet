@@ -7,7 +7,8 @@ from twisted.trial import unittest
 from twisted.plugin import IPlugin
 from comet.utility.xml import xml_document
 from comet.plugins.eventreceiver import EventReceiver
-from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_INITIAL, DUMMY_VOEVENT_LIGO_PRELIMINARY
+from comet.testutils import DUMMY_VOEVENT_GCN, DUMMY_VOEVENT_INTEGRAL, DUMMY_VOEVENT_CHIME, \
+    DUMMY_VOEVENT_LIGO, DUMMY_VOEVENT_LIGO_INITIAL, DUMMY_VOEVENT_LIGO_PRELIMINARY, DUMMY_VOEVENT_GCN_FERMI
 
 
 class DummyEvent(object):
@@ -17,6 +18,7 @@ class DummyEvent(object):
     gcn = xml_document(DUMMY_VOEVENT_GCN)
     chime = xml_document(DUMMY_VOEVENT_CHIME)
     integral = xml_document(DUMMY_VOEVENT_INTEGRAL)
+    fermi = xml_document(DUMMY_VOEVENT_GCN_FERMI)
     ligo = xml_document(DUMMY_VOEVENT_LIGO)
     ligo_preliminary = xml_document(DUMMY_VOEVENT_LIGO_PRELIMINARY)
     ligo_initial = xml_document(DUMMY_VOEVENT_LIGO_INITIAL)
@@ -41,6 +43,10 @@ class EventReceiverTestCase(unittest.TestCase):
 
     def test_write_gcn_event(self):
         request = self.event_receiver(self.dummyevents.gcn)
+        self.assertTrue(request)
+    
+    def test_write_fermi(self):
+        request = self.event_receiver(self.dummyevents.fermi)
         self.assertTrue(request)
     
     def test_write_integral(self):
