@@ -290,7 +290,7 @@ class Voevent(object):
         
         if self.GCN:
             """
-            Code copied from https://github.com/ASTRO-EDU/AlertReceiver_GCNnetwork/blob/117ce436b7003af14843cd6fd97ed0c0e1d90eb5/gcn/alert.c#L161
+            copy-paste from https://github.com/ASTRO-EDU/AlertReceiver_GCNnetwork/blob/117ce436b7003af14843cd6fd97ed0c0e1d90eb5/gcn/alert.c#L161
             """
             if self.l == 0 and self.b == 0:
                 return 0
@@ -338,6 +338,9 @@ class Voevent(object):
 
 
 if __name__ == "__main__":
+    """
+    Main used to quick test. Should not be used as unit test
+    """
     
     dummyevents = DummyEvent()
 
