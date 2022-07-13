@@ -226,17 +226,17 @@ class Voevent(object):
             top_params = vp.get_toplevel_params(self.voevent)
             grouped_params = vp.get_grouped_params(self.voevent)
             attributes = {}
-            attributes["BBH"] = grouped_params["Classification"]["BBH"]["value"]
-            attributes["BNS"] = grouped_params["Classification"]["BNS"]["value"]
+            attributes["bbh"] = grouped_params["Classification"]["BBH"]["value"]
+            attributes["bns"] = grouped_params["Classification"]["BNS"]["value"]
             attributes["far"] = top_params["FAR"]["value"]
-            attributes["NSBH"] = grouped_params["Classification"]["NSBH"]["value"]
-            attributes["HasNs"] = grouped_params["Properties"]["HasNS"]["value"]
-            attributes["GraceId"] = top_params["GraceID"]["value"]
+            attributes["nsbh"] = grouped_params["Classification"]["NSBH"]["value"]
+            attributes["has_ns"] = grouped_params["Properties"]["HasNS"]["value"]
+            attributes["grace_id"] = top_params["GraceID"]["value"]
             try:
-                attributes["MassGap"] = grouped_params["Classification"]["MassGap"]["value"]
+                attributes["mass_gap"] = grouped_params["Classification"]["MassGap"]["value"]
             except:
-                attributes["MassGap"] = 0
-            attributes["HasRemnant"] = grouped_params["Properties"]["HasRemnant"]["value"]
+                attributes["mass_gap"] = 0
+            attributes["has_remnant"] = grouped_params["Properties"]["HasRemnant"]["value"]
             attributes["terrestrial"] = grouped_params["Classification"]["Terrestrial"]["value"]
 
             return str(json.dumps(attributes))
