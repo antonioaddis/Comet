@@ -160,6 +160,10 @@ class Voevent(object):
         if self.GCN:
             top_params = vp.get_toplevel_params(self.voevent)
             return top_params["TrigID"]["value"]
+
+        if self.CHIME:
+            grouped_params = vp.get_grouped_params(self.voevent)
+            return grouped_params["event parameters"]["event_no"]["value"]
             
         if self.LIGO:
             top_params = vp.get_toplevel_params(self.voevent)
@@ -269,7 +273,7 @@ class Voevent(object):
 
             cont = list(ligo_contour(cls, [90.0], nest=True, degrees=True, simplify=False))
             
-            #Conversion to galactic: it's customized for one level to be more efficient, it uses approx 3 GB RAM
+            #Conversion to galactic: it computes the position without loops to be more efficient, it uses approx 3 GB RAM
             ra = []
             dec = []
             for level in cont:
@@ -345,26 +349,26 @@ if __name__ == "__main__":
     dummyevents = DummyEvent()
 
     voe_chime = vp.loads(dummyevents.chime.raw_bytes)
-    voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
-    voe_integral = vp.loads(dummyevents.integral.raw_bytes)
-    voe_fermi = vp.loads(dummyevents.fermi.raw_bytes)
-    voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
-    voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
-    voe_ligo_init = vp.loads(dummyevents.ligo_initial.raw_bytes)
+    # voe_gcn = vp.loads(dummyevents.gcn.raw_bytes)
+    # voe_integral = vp.loads(dummyevents.integral.raw_bytes)
+    # voe_fermi = vp.loads(dummyevents.fermi.raw_bytes)
+    # voe_ligo = vp.loads(dummyevents.ligo.raw_bytes)
+    # voe_ligo_2 = vp.loads(dummyevents.ligo2.raw_bytes)
+    # voe_ligo_init = vp.loads(dummyevents.ligo_initial.raw_bytes)
 
     v_chime = Voevent(voe_chime)
-    v_gcn = Voevent(voe_gcn)
-    v_integral = Voevent(voe_integral)
-    v_ligo = Voevent(voe_ligo)
-    v_ligo2 = Voevent(voe_ligo_2)
-    v_fermi = Voevent(voe_fermi)
-    v_ligo_init = Voevent(voe_ligo_init)
+    # v_gcn = Voevent(voe_gcn)
+    # v_integral = Voevent(voe_integral)
+    # v_ligo = Voevent(voe_ligo)
+    # v_ligo2 = Voevent(voe_ligo_2)
+    # v_fermi = Voevent(voe_fermi)
+    # v_ligo_init = Voevent(voe_ligo_init)
 
     print(v_chime)
-    print(v_gcn)
-    print(v_integral)
-    print(v_fermi)
-    print(v_ligo)
-    print(v_ligo2)
-    print(v_ligo_init)
+    # print(v_gcn)
+    # print(v_integral)
+    # print(v_fermi)
+    # print(v_ligo)
+    # print(v_ligo2)
+    # print(v_ligo_init)
 
